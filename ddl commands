@@ -1,0 +1,91 @@
+mysql> desc book;
+ERROR 1046 (3D000): No database selected
+mysql> use abhin;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> insert into book value(33,"sojappan",234,"raju_bhai",999.99);
+ERROR 1062 (23000): Duplicate entry '33' for key 'book.PRIMARY'
+mysql> show table;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> show table
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| abhin              |
+| information_schema |
+| ksb                |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+6 rows in set (0.00 sec)
+
+mysql> use abhin;
+Database changed
+mysql> desc book
+    -> ;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| book_no     | int          | NO   | PRI | NULL    |       |
+| book_name   | varchar(10)  | NO   |     | NULL    |       |
+| serial_no   | int          | YES  | UNI | NULL    |       |
+| Author_name | varchar(20)  | YES  |     | NULL    |       |
+| price       | decimal(5,2) | YES  |     | 0.00    |       |
++-------------+--------------+------+-----+---------+-------+
+5 rows in set (0.02 sec)
+
+mysql> create table student(Roll_no int primary key,name varchar(25) not null,Age int not null check(Age between 0 and 99),gender varchar(10) default 'M');
+Query OK, 0 rows affected (1.13 sec)
+
+mysql> show table;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> show tables;
++-----------------+
+| Tables_in_abhin |
++-----------------+
+| book            |
+| student         |
++-----------------+
+2 rows in set (0.00 sec)
+
+mysql> desc student;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| Roll_no | int         | NO   | PRI | NULL    |       |
+| name    | varchar(25) | NO   |     | NULL    |       |
+| Age     | int         | NO   |     | NULL    |       |
+| gender  | varchar(10) | YES  |     | M       |       |
++---------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> create table employee1 as select * from employee;
+ERROR 1146 (42S02): Table 'abhin.employee' doesn't exist
+mysql> create temporary table student1 as select * from student;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> create table employee-copy select*from employ
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-copy select*from employ' at line 1
+mysql> create table employee_copy as select * from employee;
+ERROR 1146 (42S02): Table 'abhin.employee' doesn't exist
+mysql> create table student (roll_no int primary key,name varchar(100) not null, age int not null check (age >= 0 and age <=99),address varchar(255),gender char(1) default 'm');
+ERROR 1050 (42S01): Table 'student' already exists
+mysql> desc student;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| Roll_no | int         | NO   | PRI | NULL    |       |
+| name    | varchar(25) | NO   |     | NULL    |       |
+| Age     | int         | NO   |     | NULL    |       |
+| gender  | varchar(10) | YES  |     | M       |       |
++---------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
