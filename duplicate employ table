@@ -14,3 +14,4 @@ mysql> desc employee_dup;
 | city  | varchar(20) | YES  |     | 0       |       |
 +-------+-------------+------+-----+---------+-------+
 5 rows in set (0.00 sec)
+//
