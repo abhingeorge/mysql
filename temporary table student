@@ -14,3 +14,4 @@ mysql> desc student1;
 | gender  | char(1)      | YES  |     | m       | NULL  |
 +---------+--------------+------+-----+---------+-------+
 5 rows in set (0.00 sec)
+//
