@@ -1,0 +1,16 @@
+//create a temporary table student1 of student releation.
+mysql> create temporary table student1 as select * from student;
+Query OK, 0 rows affected (0.00 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc student1;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| roll_no | int          | NO   |     | NULL    | NULL  |
+| name    | varchar(20)  | NO   |     | NULL    | NULL  |
+| age     | int          | NO   |     | NULL    | NULL  |
+| address | varchar(100) | YES  |     | NULL    | NULL  |
+| gender  | char(1)      | YES  |     | m       | NULL  |
++---------+--------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
