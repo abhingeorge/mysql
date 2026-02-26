@@ -1,0 +1,204 @@
+mysql> SET AUTOCOMMIT = 0;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> INSERT INTO Product VALUES (208, 'car', 900);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from Product;
++-----+-------+-------+
+| pid | pname | price |
++-----+-------+-------+
+| 111 | abhi  |   999 |
+| 120 | adi   |    45 |
+| 200 | car   |   200 |
+| 204 | car   |   900 |
+| 208 | car   |   900 |
++-----+-------+-------+
+5 rows in set (0.00 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> SET AUTOCOMMIT = 0;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from Product;
++-----+-------+-------+
+| pid | pname | price |
++-----+-------+-------+
+| 111 | abhi  |   999 |
+| 120 | adi   |    45 |
+| 200 | car   |   200 |
+| 204 | car   |   900 |
+| 208 | car   |   900 |
++-----+-------+-------+
+5 rows in set (0.00 sec)
+mysql> INSERT INTO Product VALUES (206, 'Pen', 10);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from Product;
++-----+-------+-------+
+| pid | pname | price |
++-----+-------+-------+
+| 111 | abhi  |   999 |
+| 120 | adi   |    45 |
+| 200 | car   |   200 |
+| 204 | car   |   900 |
+| 206 | Pen   |    10 |
+| 208 | car   |   900 |
++-----+-------+-------+
+6 rows in set (0.01 sec)
+
+mysql> ROLLBACK;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from Product;
++-----+-------+-------+
+| pid | pname | price |
++-----+-------+-------+
+| 111 | abhi  |   999 |
+| 120 | adi   |    45 |
+| 200 | car   |   200 |
+| 204 | car   |   900 |
+| 208 | car   |   900 |
++-----+-------+-------+
+5 rows in set (0.00 sec)
+
+
+mysql> SET AUTOCOMMIT = 0;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> INSERT INTO Product VALUES (301,'Pen',10);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO Product VALUES (302,'Pencil',5);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from Product;
++-----+--------+-------+
+| pid | pname  | price |
++-----+--------+-------+
+| 111 | abhi   |   999 |
+| 120 | adi    |    45 |
+| 200 | car    |   200 |
+| 204 | car    |   900 |
+| 208 | car    |   900 |
+| 301 | Pen    |    10 |
+| 302 | Pencil |     5 |
++-----+--------+-------+
+7 rows in set (0.00 sec)
+
+mysql> SAVEPOINT sp1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> UPDATE Product SET price = 20 WHERE pid = 301;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SAVEPOINT sp2;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from Product;
++-----+--------+-------+
+| pid | pname  | price |
++-----+--------+-------+
+| 111 | abhi   |   999 |
+| 120 | adi    |    45 |
+| 200 | car    |   200 |
+| 204 | car    |   900 |
+| 208 | car    |   900 |
+| 301 | Pen    |    20 |
+| 302 | Pencil |     5 |
++-----+--------+-------+
+7 rows in set (0.00 sec)
+
+
+mysql> INSERT INTO Product VALUES (303,'Notebook',40);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SAVEPOINT sp3;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from Product;
++-----+----------+-------+
+| pid | pname    | price |
++-----+----------+-------+
+| 111 | abhi     |   999 |
+| 120 | adi      |    45 |
+| 200 | car      |   200 |
+| 204 | car      |   900 |
+| 208 | car      |   900 |
+| 301 | Pen      |    20 |
+| 302 | Pencil   |     5 |
+| 303 | Notebook |    40 |
++-----+----------+-------+
+8 rows in set (0.00 sec)
+
+mysql> DELETE FROM Product WHERE pid = 302;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from Product;
++-----+----------+-------+
+| pid | pname    | price |
++-----+----------+-------+
+| 111 | abhi     |   999 |
+| 120 | adi      |    45 |
+| 200 | car      |   200 |
+| 204 | car      |   900 |
+| 208 | car      |   900 |
+| 301 | Pen      |    20 |
+| 303 | Notebook |    40 |
++-----+----------+-------+
+7 rows in set (0.00 sec)
+
+mysql> ROLLBACK TO sp3;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from Product;
++-----+----------+-------+
+| pid | pname    | price |
++-----+----------+-------+
+| 111 | abhi     |   999 |
+| 120 | adi      |    45 |
+| 200 | car      |   200 |
+| 204 | car      |   900 |
+| 208 | car      |   900 |
+| 301 | Pen      |    20 |
+| 302 | Pencil   |     5 |
+| 303 | Notebook |    40 |
++-----+----------+-------+
+8 rows in set (0.00 sec)
+
+mysql> ROLLBACK TO sp1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from Product;
++-----+--------+-------+
+| pid | pname  | price |
++-----+--------+-------+
+| 111 | abhi   |   999 |
+| 120 | adi    |    45 |
+| 200 | car    |   200 |
+| 204 | car    |   900 |
+| 208 | car    |   900 |
+| 301 | Pen    |    15 |
+| 302 | Pencil |     5 |
++-----+--------+-------+
+7 rows in set (0.00 sec)
+mysql> ROLLBACK TO sp1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from Product;
++-----+--------+-------+
+| pid | pname  | price |
++-----+--------+-------+
+| 111 | abhi   |   999 |
+| 120 | adi    |    45 |
+| 200 | car    |   200 |
+| 204 | car    |   900 |
+| 208 | car    |   900 |
+| 301 | Pen    |    15 |
+| 302 | Pencil |     5 |
++-----+--------+-------+
+7 rows in set (0.00 sec)
+
