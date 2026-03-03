@@ -1,0 +1,43 @@
+1. List all invoice items, avoid duplicates.    
+mysql> SELECT DISTINCT *
+    -> FROM Invoice_item;
++--------+------+----------+
+| inv_id | pid  | quantity |
++--------+------+----------+
+|      1 |  102 |        2 |
++--------+------+----------+
+1 row in set (0.03 sec)
+2. List the customer details who not live in ‘Kannur’.
+mysql> select*from Customer where city <> 'Kannur';
++----+-------+-----------+------------+------------+
+| id | name  | address   | city       | ph_no      |
++----+-------+-----------+------------+------------+
+|  1 | Arun  | New House | Kozhikode  | 9999999999 |
+|  3 | Meera | PQR House | Malappuram | 9876512345 |
++----+-------+-----------+------------+------------+
+2 rows in set (0.00 sec)
+
+3. Display the customer details sorted in ascending by city and descending by names.
+mysql> select*from Customer order by city ASC, name desc;
++----+-------+-----------+------------+------------+
+| id | name  | address   | city       | ph_no      |
++----+-------+-----------+------------+------------+
+|  2 | Rahul | XYZ House | Kannur     | 9876501234 |
+|  1 | Arun  | New House | Kozhikode  | 9999999999 |
+|  3 | Meera | PQR House | Malappuram | 9876512345 |
++----+-------+-----------+------------+------------+
+3 rows in set (0.01 sec)
+
+4. Find the customer names who have ‘e’ or ‘a’ in them and at least 3 characters in length.
+mysql> SELECT name FROM Customer WHERE (name LIKE '%e%' OR name LIKE '%a%') AND name LIKE '___%';
++-------+
+| name  |
++-------+
+| Arun  |
+| Rahul |
+| Meera |
++-------+
+3 rows in set (0.00 sec)
+
+
+
