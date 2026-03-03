@@ -1,0 +1,106 @@
+3. TCL & DCL COMMANDS
+
+a) TCL COMMANDS 
+ 1. Commit 
+ mysql> SET AUTOCOMMIT = 0;
+Query OK, 0 rows affected (0.00 sec)
+mysql> START TRANSACTION;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+mysql> UPDATE Product
+    -> SET price = 100
+    -> WHERE pid = 101;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> COMMIT;
+Query OK, 0 rows affected (0.15 sec)
+
+mysql> SELECT*FROM Customer;
+ERROR 1146 (42S02): Table 'INVOICE.cUSTOMER' doesn't exist
+mysql> SELECT*FROM Customer;
++----+-------+-----------+------------+------------+
+| id | name  | address   | city       | ph_no      |
++----+-------+-----------+------------+------------+
+|  1 | Arun  | New House | Kozhikode  | 9999999999 |
+|  2 | Rahul | XYZ House | Kannur     | 9876501234 |
+|  3 | Meera | PQR House | Malappuram | 9876512345 |
++----+-------+-----------+------------+------------+
+2. Rollback 
+mysql> UPDATE Customer
+    -> SET city = 'Kozhikode'
+    -> WHERE id = 1;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+mysql> ROLLBACK;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select*from Customer;
++----+-------+-----------+------------+------------+
+| id | name  | address   | city       | ph_no      |
++----+-------+-----------+------------+------------+
+|  1 | Arun  | New House | Kozhikode  | 9999999999 |
+|  2 | Rahul | XYZ House | Kannur     | 9876501234 |
+|  3 | Meera | PQR House | Malappuram | 9876512345 |
++----+-------+-----------+------------+------------+
+3. Savepoint.
+mysql> UPDATE Product
+    -> SET price = 200
+    -> WHERE pid = 102;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SAVEPOINT A;
+Query OK, 0 rows affected (0.00 sec)
+mysql> UPDATE Product
+    -> SET price = 300
+    -> WHERE pid = 103;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+mysql> ROLLBACK TO A;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+mysql> COMMIT;
+Query OK, 0 rows affected (0.11 sec)
+
+mysql> select*from Product;
++-----+--------+--------+
+| pid | pname  | price  |
++-----+--------+--------+
+| 101 | Pen    | 100.00 |
+| 102 | Book   | 200.00 |
+| 103 | Bag    | 510.00 |
+| 104 | Pencil |   5.10 |
++-----+--------+--------+
+
+b) DCL COMMAND 
+ Create two users user1, user2 
+ 1. GRANT:   Give insert and select privilege to user 1 on customer table in the invoice database.
+Give update and delete privilege to user 2 on all tables in the invoice database. 
+mysql> CREATE USER 'user1'@'localhost' IDENTIFIED BY 'pass123';
+Query OK, 0 rows affected (0.13 sec)
+mysql> CREATE USER 'user2'@'localhost' IDENTIFIED BY 'pass123';
+Query OK, 0 rows affected (0.12 sec)
+mysql> show grants for 'user1'@'localhost';
++-------------------------------------------+
+| Grants for user1@localhost                |
++-------------------------------------------+
+| GRANT USAGE ON *.* TO `user1`@`localhost` |
++-------------------------------------------+
+mysql> GRANT UPDATE, DELETE
+    -> ON INVOICE.*
+    -> TO 'user2'@'localhost';
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> show grants for 'user2'@'localhost';
++------------------------------------------------------------+
+| Grants for user2@localhost                                 |
++------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `user2`@`localhost`                  |
+| GRANT UPDATE, DELETE ON `INVOICE`.* TO `user2`@`localhost` |
++------------------------------------------------------------+
+2. REVOKE:   Remove delete privilege of user 2.
+
+
