@@ -1,0 +1,47 @@
+1. List the product names, only include those purchased quantity more than 3.
+mysql> SELECT pname  FROM Product  WHERE pid IN (SELECT pid FROM Invoice_item WHERE quantity >= 2);
++-------+
+| pname |
++-------+
+| Book  |
++-------+
+1 row in set (0.01 sec)
+
+2. Find the product that has no sale.
+mysql> SELECT pname
+    -> FROM Product
+    -> WHERE pid NOT IN (SELECT pid FROM Invoice_item);
++--------+
+| pname  |
++--------+
+| Pen    |
+| Bag    |
+| Pencil |
++--------+
+3 rows in set (0.00 sec)
+
+3. List the names of all customers who have purchased at least 1 products, making sure that
+no duplicate names are in the result.
+mysql> SELECT DISTINCT name
+    -> FROM Customer
+    -> WHERE id IN
+    -> (
+    -> SELECT cust_id
+    -> FROM Invoice_master
+    -> WHERE inv_id IN
+    -> (
+    -> SELECT inv_id
+    -> FROM Invoice_item
+    -> GROUP BY inv_id
+    -> HAVING COUNT(pid) >= 1
+    -> )
+    -> );
++------+
+| name |
++------+
+| Arun |
++------+
+1 row in set (0.00 sec)
+
+
+
