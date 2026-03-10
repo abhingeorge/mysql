@@ -1,0 +1,36 @@
+1. List the product name and quantity of invoice items. 
+mysql> SELECT Product.pname, Invoice_item.quantity
+    -> FROM Product
+    -> JOIN Invoice_item
+    -> ON Product.pid = Invoice_item.pid;
++-------+----------+
+| pname | quantity |
++-------+----------+
+| Book  |        2 |
++-------+----------+
+1 row in set (0.00 sec)
+
+2.. Display the customer name, product name, invoice date of purchased item ‘pen’. 
+mysql> select Customer.name,Product.pname,Invoice_master.inv_date from Customer natural join Invoice_master natural join Invoice_item natural join Product where pname='Book';
++-------+-------+------------+
+| name  | pname | inv_date   |
++-------+-------+------------+
+| Arun  | Book  | 2026-02-28 |
+| Rahul | Book  | 2026-02-28 |
+| Meera | Book  | 2026-02-28 |
++-------+-------+------------+
+3 rows in set (0.00 sec)
+
+3. Display all customer details and invoice details must include customer has not
+purchased items.
+mysql> SELECT Customer.id,Customer.name,Invoice_master.Inv_id from Customer left join Invoice_master on Customer.id=Invoice_master.Cust_id ;
++----+-------+--------+
+| id | name  | Inv_id |
++----+-------+--------+
+|  1 | Arun  |      1 |
+|  2 | Rahul |      2 |
+|  3 | Meera |      3 |
+| 61 | john  |   NULL |
++----+-------+--------+
+4 rows in set (0.00 sec)
+
