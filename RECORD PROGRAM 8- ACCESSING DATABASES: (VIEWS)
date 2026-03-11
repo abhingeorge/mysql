@@ -1,0 +1,29 @@
+1.Create a view for customers who have purchased products.
+mysql> CREATE VIEW customer_purchased1 AS SELECT c.id, c.name,  im.inv_date FROM Customer c JOIN Invoice_master im ON c.id = im.cust_id;
+Query OK, 0 rows affected (0.20 sec)
+mysql> SELECT * FROM customer_purchased1;
++----+-------+------------+
+| id | name  | inv_date   |
++----+-------+------------+
+|  1 | Arun  | 2026-02-28 |
+|  2 | Rahul | 2026-02-28 |
+|  3 | Meera | 2026-02-28 |
++----+-------+------------+
+3 rows in set (0.00 sec)
+
+2. Create a view for invoice products[cname, , inv_id, product_id, quantity]
+mysql> CREATE VIEW invoice_products AS
+    -> SELECT c.name AS cname, im.inv_id, ii.pid AS product_id, ii.quantity
+    -> FROM Customer c
+    -> JOIN Invoice_master im ON c.id = im.cust_id
+    -> JOIN Invoice_item ii ON im.inv_id = ii.inv_id;
+Query OK, 0 rows affected (0.17 sec)
+
+mysql> SELECT * FROM invoice_products;
++-------+--------+------------+----------+
+| cname | inv_id | product_id | quantity |
++-------+--------+------------+----------+
+| Arun  |      1 |        102 |        2 |
++-------+--------+------------+----------+
+1 row in set (0.03 sec)
+
