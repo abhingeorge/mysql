@@ -1,0 +1,56 @@
+1. Write a MongoDB query to display the customer documents having city ‘Kochi’,’Trivandrum’. 
+INVOICE> db.CUSTOMER.find({ city: { $in: ["Kochi", "Trivandrum"] } })
+[
+  {
+    _id: ObjectId('69b8eef820f3247b45ef634e'),
+    cid: 1,
+    cname: 'Rahul',
+    city: 'Kochi',
+    phone: '9876543210'
+  },
+  {
+    _id: ObjectId('69b8eef820f3247b45ef634f'),
+    cid: 2,
+    cname: 'Anjali',
+    city: 'Kochi',
+    phone: '9876541230'
+  },
+  {
+    _id: ObjectId('69b8eef820f3247b45ef6350'),
+    cid: 3,
+    cname: 'Arun',
+    city: 'Trivandrum',
+    phone: '9123456789'
+  }
+]
+
+ 2. Write a MongoDB query to display all product documents their price >50. 
+ INVOICE> db.PRODUCT.find({ price: { $gt: 40 } })
+[
+  {
+    _id: ObjectId('69b8ef1920f3247b45ef6352'),
+    pid: 102,
+    pname: 'Notebook',
+    price: 50
+  }
+]
+
+ 3. Write a MongoDB query to find customer documents who not live in ‘tvm’.
+ INVOICE> db.CUSTOMER.find({ city: { $ne: "Trivandrum" } })
+[
+  {
+    _id: ObjectId('69b8eef820f3247b45ef634e'),
+    cid: 1,
+    cname: 'Rahul',
+    city: 'Kochi',
+    phone: '9876543210'
+  },
+  {
+    _id: ObjectId('69b8eef820f3247b45ef634f'),
+    cid: 2,
+    cname: 'Anjali',
+    city: 'Kochi',
+    phone: '9876541230'
+  }
+]
+
