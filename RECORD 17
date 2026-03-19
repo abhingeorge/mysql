@@ -1,0 +1,41 @@
+1. Write a MongoDB query to create a user “CUSTOMER1” and grant the read role in the INVOICE database. 
+INVOICE> use INVOICE
+already on db INVOICE
+INVOICE> 
+
+INVOICE> db.createUser({
+...   user: "CUSTOMER1",
+...   pwd: "password123",
+...   roles: [
+...     { role: "read", db: "INVOICE" }
+...   ]
+... })
+{ ok: 1 }
+INVOICE> db.getUser("CUSTOMER1")
+{
+  _id: 'INVOICE.CUSTOMER1',
+  userId: UUID('cbaecc0f-ec19-4b99-af80-f9b0e1ec5dad'),
+  user: 'CUSTOMER1',
+  db: 'INVOICE',
+  roles: [ { role: 'read', db: 'INVOICE' } ],
+  mechanisms: [ 'SCRAM-SHA-1', 'SCRAM-SHA-256' ]
+}
+
+2. Write a MongoDB query to create the backup for the INVOICE database. 
+ksb@ksb-OptiPlex-3060:~$ mongodump --db INVOICE 
+2026-03-19T14:57:38.192+0530	writing INVOICE.CUSTOMER to dump/INVOICE/CUSTOMER.bson
+2026-03-19T14:57:38.194+0530	done dumping INVOICE.CUSTOMER (3 documents)
+2026-03-19T14:57:38.242+0530	writing INVOICE.PRODUCT to dump/INVOICE/PRODUCT.bson
+2026-03-19T14:57:38.243+0530	done dumping INVOICE.PRODUCT (3 documents)
+
+ 3. Write a MongoDB query to restore a particular database or a collection. 
+ ksb@ksb-OptiPlex-3060:~$ mongorestore --db INVOICE /backup/INVOICE/
+2026-03-19T15:00:37.945+0530	The --db and --collection flags are deprecated for this use-case; please use --nsInclude instead, i.e. with --nsInclude=${DATABASE}.${COLLECTION}
+2026-03-19T15:00:37.945+0530	Failed: mongorestore target '/backup/INVOICE/' invalid: stat /backup/INVOICE/: no such file or directory
+2026-03-19T15:00:37.945+0530	0 document(s) restored successfully. 0 document(s) failed to restore.
+
+4. Write a MongoDB query to create an index for the collection customer using the field customer_name.
+INVOICE> db.CUSTOMER.createIndex({ customer_name: 1 })
+customer_name_1
+
+
