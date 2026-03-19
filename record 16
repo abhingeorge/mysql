@@ -1,0 +1,77 @@
+1. Write a MongoDB query to sort customer details in ascending order of their name. 
+INVOICE> db.CUSTOMER.find().sort({ cname: 1 })
+[
+  {
+    _id: ObjectId('69b8eef820f3247b45ef634f'),
+    cid: 2,
+    cname: 'Anjali',
+    city: 'Kochi',
+    phone: '9876541230'
+  },
+  {
+    _id: ObjectId('69b8eef820f3247b45ef6350'),
+    cid: 3,
+    cname: 'Arun',
+    city: 'Trivandrum',
+    phone: '9123456789'
+  },
+  {
+    _id: ObjectId('69b8eef820f3247b45ef634e'),
+    cid: 1,
+    cname: 'Rahul',
+    city: 'Kochi',
+    phone: '9876543210'
+  }
+]
+
+2. Write a MongoDB query to count number of customers in each city. 
+INVOICE> db.CUSTOMER.aggregate([
+...   { $group: { _id: "$city", totalCustomers: { $sum: 1 } } }
+... ])
+[
+  { _id: 'Trivandrum', totalCustomers: 1 },
+  { _id: 'Kochi', totalCustomers: 2 }
+]
+
+3. Write a MongoDB query to find minimum and maximum price in each pname.
+INVOICE> db.PRODUCT.aggregate([
+...   {
+...     $group: {
+...       _id: "$pname",
+...       minPrice: { $min: "$price" },
+...       maxPrice: { $max: "$price" }
+...     }
+...   }
+... ])
+[
+  { _id: 'Pencil', minPrice: 5, maxPrice: 5 },
+  { _id: 'Pen', minPrice: 10, maxPrice: 10 },
+  { _id: 'Notebook', minPrice: 50, maxPrice: 50 }
+]
+
+4. Write a MongoDB query using the $match stage to retrieve all customer documents whose
+customer_name starts with the letter “R”.
+INVOICE> db.CUSTOMER.aggregate([
+...   {
+...     $match: { cname: { $regex: "^S" } }
+...   }
+... ])
+
+INVOICE> db.CUSTOMER.aggregate([
+...   {
+...     $match: { cname: { $regex: "^R" } }
+...   }
+... ])
+[
+  {
+    _id: ObjectId('69b8eef820f3247b45ef634e'),
+    cid: 1,
+    cname: 'Rahul',
+    city: 'Kochi',
+    phone: '9876543210'
+  }
+]
+
+ 
+
+
